@@ -1,1 +1,859 @@
-<h1>TEST</h1>
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>swcasimiro - Backend Developer</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background: #f8fafc;
+            color: #2d3748;
+        }
+        
+        .section {
+            opacity: 0;
+            transform: translateY(30px);
+            transition: all 0.6s ease;
+        }
+        
+        .section.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+        
+        .project-card {
+            transition: all 0.3s ease;
+            border: 1px solid #e2e8f0;
+        }
+        
+        .project-card:hover {
+            transform: translateY(-5px);
+            border-color: #cbd5e0;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.15);
+        }
+        
+        .service-card {
+            transition: all 0.3s ease;
+            border: 1px solid #e2e8f0;
+        }
+        
+        .service-card:hover {
+            transform: translateY(-5px);
+            border-color: #cbd5e0;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+        }
+        
+        .tech-tag {
+            background: #edf2f7;
+            color: #4a5568;
+            transition: all 0.3s ease;
+        }
+        
+        .tech-tag:hover {
+            background: #e2e8f0;
+        }
+        
+        .contact-card {
+            transition: all 0.3s ease;
+        }
+        
+        .contact-card:hover {
+            border-color: #1f2937;
+            transform: translateY(-5px);
+            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.1);
+        }
+        
+        .project-image {
+            height: 330px;
+            object-fit: cover;
+            background: linear-gradient(135deg, #2d3748 0%, #4a5568 100%);
+        }
+        
+        .container-wide {
+            max-width: 1400px;
+        }
+
+        @keyframes float {
+            0%, 100% {
+                transform: translateY(0px);
+            }
+            50% {
+                transform: translateY(-15px);
+            }
+        }
+
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes glow {
+            0%, 100% {
+                box-shadow: 0 0 20px rgba(31, 41, 55, 0.3);
+            }
+            50% {
+                box-shadow: 0 0 30px rgba(31, 41, 55, 0.6);
+            }
+        }
+
+        @keyframes typewriter {
+            from {
+                width: 0;
+            }
+            to {
+                width: 100%;
+            }
+        }
+
+        @keyframes blinkCursor {
+            0%, 100% {
+                border-right-color: transparent;
+            }
+            50% {
+                border-right-color: #ffffff;
+            }
+        }
+
+        .floating-logo {
+            animation: float 6s ease-in-out infinite;
+        }
+
+        .logo-container {
+            position: relative;
+            z-index: 10;
+        }
+
+        .logo-image {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            border-radius: 50%;
+        }
+
+        .glow-border {
+            animation: glow 3s ease-in-out infinite;
+        }
+
+        .fade-in-up {
+            animation: fadeInUp 1s ease-out forwards;
+        }
+
+        .typewriter-container {
+            display: inline-block;
+            position: relative;
+        }
+
+        .typewriter {
+            overflow: hidden;
+            border-right: 3px solid #ffffff;
+            white-space: nowrap;
+            margin: 0 auto;
+            animation: 
+                typewriter 2.5s steps(11) 1s both,
+                blinkCursor 0.8s steps(2) infinite 1s;
+        }
+
+        .stagger-animation > * {
+            opacity: 0;
+            transform: translateY(30px);
+            animation: fadeInUp 0.8s ease-out forwards;
+        }
+
+        .stagger-animation > *:nth-child(1) { animation-delay: 0.1s; }
+        .stagger-animation > *:nth-child(2) { animation-delay: 0.3s; }
+        .stagger-animation > *:nth-child(3) { animation-delay: 0.5s; }
+        .stagger-animation > *:nth-child(4) { animation-delay: 0.7s; }
+        .stagger-animation > *:nth-child(5) { animation-delay: 0.9s; }
+
+        .pulse-button {
+            animation: pulse 2s infinite;
+        }
+
+        @keyframes pulse {
+            0% {
+                transform: scale(1);
+            }
+            50% {
+                transform: scale(1.05);
+            }
+            100% {
+                transform: scale(1);
+            }
+        }
+
+        .price-tag {
+            background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+            color: white;
+            font-weight: 600;
+        }
+
+        .project-slider {
+            position: relative;
+            height: 330px;
+            overflow: hidden;
+            border-radius: 12px 12px 0 0;
+            cursor: pointer;
+        }
+
+        .slide {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            opacity: 0;
+            transition: opacity 0.5s ease-in-out;
+            object-fit: cover;
+            cursor: pointer;
+        }
+
+        .slide.active {
+            opacity: 1;
+        }
+
+        .slider-nav {
+            position: absolute;
+            bottom: 15px;
+            left: 50%;
+            transform: translateX(-50%);
+            display: flex;
+            gap: 8px;
+            z-index: 20;
+        }
+
+        .nav-dot {
+            width: 10px;
+            height: 10px;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.5);
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .nav-dot.active {
+            background: white;
+            transform: scale(1.2);
+        }
+
+        .slider-btn {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            background: rgba(0, 0, 0, 0.5);
+            color: white;
+            border: none;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            z-index: 20;
+        }
+
+        .slider-btn:hover {
+            background: rgba(0, 0, 0, 0.8);
+        }
+
+        .slider-btn.prev {
+            left: 15px;
+        }
+
+        .slider-btn.next {
+            right: 15px;
+        }
+
+        .image-counter {
+            position: absolute;
+            top: 15px;
+            right: 15px;
+            background: rgba(0, 0, 0, 0.7);
+            color: white;
+            padding: 4px 12px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: 500;
+            z-index: 20;
+        }
+
+        /* Модальное окно */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.95);
+            z-index: 1000;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+
+        .modal.active {
+            display: flex;
+            opacity: 1;
+        }
+
+        .modal-content {
+            position: relative;
+            width: 95%;
+            height: 95%;
+            margin: auto;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .modal-image {
+            max-width: 90%;
+            max-height: 90%;
+            object-fit: contain;
+            transform: scale(0.8);
+            transition: transform 0.3s ease;
+        }
+
+        .modal-image.zoomed {
+            transform: scale(1);
+            cursor: zoom-out;
+        }
+
+        .modal-image:not(.zoomed) {
+            cursor: zoom-in;
+        }
+
+        .modal-close {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            background: rgba(0, 0, 0, 0.7);
+            color: white;
+            border: none;
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            font-size: 24px;
+            transition: all 0.3s ease;
+            z-index: 1001;
+        }
+
+        .modal-close:hover {
+            background: rgba(255, 255, 255, 0.2);
+            transform: scale(1.1);
+        }
+
+        .modal-nav {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            background: rgba(0, 0, 0, 0.7);
+            color: white;
+            border: none;
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            font-size: 24px;
+            transition: all 0.3s ease;
+            z-index: 1001;
+        }
+
+        .modal-nav:hover {
+            background: rgba(255, 255, 255, 0.2);
+            transform: translateY(-50%) scale(1.1);
+        }
+
+        .modal-nav.prev {
+            left: 20px;
+        }
+
+        .modal-nav.next {
+            right: 20px;
+        }
+
+        .modal-counter {
+            position: absolute;
+            bottom: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: rgba(0, 0, 0, 0.7);
+            color: white;
+            padding: 8px 16px;
+            border-radius: 20px;
+            font-size: 16px;
+            font-weight: 500;
+            z-index: 1001;
+        }
+
+        .modal-zoom-btn {
+            position: absolute;
+            bottom: 20px;
+            right: 20px;
+            background: rgba(0, 0, 0, 0.7);
+            color: white;
+            border: none;
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            font-size: 20px;
+            transition: all 0.3s ease;
+            z-index: 1001;
+        }
+
+        .modal-zoom-btn:hover {
+            background: rgba(255, 255, 255, 0.2);
+            transform: scale(1.1);
+        }
+
+        @media (max-width: 768px) {
+            .modal-nav {
+                width: 45px;
+                height: 45px;
+                font-size: 18px;
+            }
+            
+            .modal-close, .modal-zoom-btn {
+                width: 40px;
+                height: 40px;
+                font-size: 18px;
+            }
+        }
+    </style>
+</head>
+<body class="bg-gray-50">
+
+    <!-- Модальное окно -->
+    <div class="modal" id="imageModal">
+        <button class="modal-close" id="modalClose">
+            <i class="fas fa-times"></i>
+        </button>
+        
+        <button class="modal-nav prev" id="modalPrev">
+            <i class="fas fa-chevron-left"></i>
+        </button>
+        
+        <button class="modal-nav next" id="modalNext">
+            <i class="fas fa-chevron-right"></i>
+        </button>
+        
+        <button class="modal-zoom-btn" id="modalZoom">
+            <i class="fas fa-search-plus"></i>
+        </button>
+        
+        <div class="modal-counter" id="modalCounter">1 / 3</div>
+        
+        <div class="modal-content">
+            <img src="" alt="" class="modal-image" id="modalImage">
+        </div>
+    </div>
+
+    <section class="min-h-screen flex items-center justify-center pt-20 section bg-[#1f2937]" id="hero">
+        <div class="container-wide mx-auto px-8 text-center">
+            <div class="max-w-4xl mx-auto stagger-animation">
+                <div class="logo-container floating-logo w-40 h-40 mx-auto bg-gradient-to-br from-[#1f2937] to-[#374151] rounded-full flex items-center justify-center mb-8 overflow-hidden border-4 border-white shadow-2xl glow-border">
+                    <img src="https://www.upload.ee/image/18669731/74432871-3703-417b-9984-8edfbfc81a43.png" 
+                         alt="Profile" 
+                         class="logo-image">
+                </div>
+                
+                <div class="fade-in-up" style="animation-delay: 0.2s;">
+                    <h1 class="text-5xl md:text-7xl font-bold text-white mb-6">
+                        <div class="typewriter-container">
+                            <span class="text-white typewriter">swcasimiro</span>
+                        </div>
+                    </h1>
+                </div>
+                
+                <div class="fade-in-up" style="animation-delay: 0.4s;">
+                    <p class="text-2xl md:text-3xl text-gray-300 mb-8 font-medium">
+                        Backend <span class="text-gray-100">Developer</span>
+                    </p>
+                </div>
+                
+                <div class="fade-in-up" style="animation-delay: 0.6s;">
+                    <p class="text-xl text-gray-400 mb-12 leading-relaxed max-w-3xl mx-auto">
+                        Создаю сайты с нуля под любой вкус и цвет. Занимаюсь разработкой веб-приложений более 3-ех лет.
+                    </p>
+                </div>
+                
+                <div class="fade-in-up" style="animation-delay: 0.8s;">
+                    <a href="#projects" class="pulse-button inline-flex items-center space-x-3 bg-[#1f2937] hover:bg-[#111827] border-2 border-gray-600 hover:border-gray-500 text-white px-10 py-5 rounded-xl font-semibold transition-all duration-300 text-lg transform hover:scale-105 shadow-lg">
+                        <span>Мои проекты</span>
+                        <i class="fas fa-arrow-down text-sm animate-bounce"></i>
+                    </a>
+                </div>
+
+            </div>
+        </div>
+
+        <div class="absolute top-1/4 left-1/4 w-4 h-4 bg-gray-600 rounded-full opacity-50 animate-pulse"></div>
+        <div class="absolute top-1/3 right-1/4 w-6 h-6 bg-gray-500 rounded-full opacity-30 animate-bounce"></div>
+        <div class="absolute bottom-1/4 left-1/3 w-3 h-3 bg-gray-400 rounded-full opacity-40 animate-pulse" style="animation-delay: 0.5s;"></div>
+    </section>
+
+    <section id="projects" class="py-24 section">
+        <div class="container-wide mx-auto px-8">
+            <div class="text-center mb-20">
+                <h2 class="text-4xl md:text-5xl font-bold text-gray-800 mb-6">Мои Проекты</h2>
+                <p class="text-xl text-gray-600 max-w-2xl mx-auto">Примеры моих творений - от сложных веб-приложений до современных лендингов</p>
+            </div>
+            
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-8" id="projects-grid">
+            </div>
+        </div>
+    </section>
+
+    <section id="contact" class="py-24 section bg-[#1f2937]">
+        <div class="container-wide mx-auto px-8">
+            <div class="text-center mb-20">
+                <h2 class="text-4xl md:text-5xl font-bold text-white mb-6">Контакты</h2>
+                <p class="text-xl text-gray-300">Свяжитесь со мной удобным способом</p>
+            </div>
+            
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-8 max-w-6xl mx-auto" id="contacts-grid">
+            </div>
+        </div>
+    </section>
+
+    <script>
+        const projects = [
+            {
+                title: "Сайт для онлайн голосований",
+                description: "Веб-приложение с использованием современных технологий. Для голосования на пост мэра Лос-Сантоса. С регистрацией и админ-панелью. Полнофункциональная система голосования с реальными кандидатами и защитой от накруток.",
+                tech: ["Django", "PostgreSQL", "React", "Docker", "REST API", "JWT"],
+                images: [
+                    "https://skrinshoter.ru/s/061025/t2HaUhtz.jpg?download=1&name=%D0%A1%D0%BA%D1%80%D0%B8%D0%BD%D1%88%D0%BE%D1%82-06-10-2025%2003:10:39.jpg",
+                    "https://skrinshoter.ru/s/061025/HmS5RlZ4.jpg?download=1&name=%D0%A1%D0%BA%D1%80%D0%B8%D0%BD%D1%88%D0%BE%D1%82-06-10-2025%2003:13:39.jpg",
+                    "https://skrinshoter.ru/s/061025/nSYSNdb1.jpg?download=1&name=%D0%A1%D0%BA%D1%80%D0%B8%D0%BD%D1%88%D0%BE%D1%82-06-10-2025%2003:14:39.jpg",
+                    "https://skrinshoter.ru/s/061025/23lErxPw.jpg?download=1&name=%D0%A1%D0%BA%D1%80%D0%B8%D0%BD%D1%88%D0%BE%D1%82-06-10-2025%2003:15:40.jpg"
+                ],
+                link: "https://github.com/swcasimiro/voite_online"
+            },
+            {
+                title: "Лендинг - STALKER ROLE PLAY",
+                description: "Современный сайт для ролевого сервера на платформе SA-MP. С админ-панелью и написанным API для систем сервера. Полная интеграция с игровым миром, статистика игроков и система новостей.",
+                tech: ["Django", "PostgreSQL", "JQuery", "Docker", "REST API"],
+                images: [
+                    "https://skrinshoter.ru/s/061025/29fGURsR.jpg?download=1&name=%D0%A1%D0%BA%D1%80%D0%B8%D0%BD%D1%88%D0%BE%D1%82-06-10-2025%2003:17:59.jpg",
+                    "https://skrinshoter.ru/s/061025/9HmHCtri.jpg?download=1&name=%D0%A1%D0%BA%D1%80%D0%B8%D0%BD%D1%88%D0%BE%D1%82-06-10-2025%2003:18:40.jpg",
+                    "https://skrinshoter.ru/s/061025/k2vmDGGX.jpg?download=1&name=%D0%A1%D0%BA%D1%80%D0%B8%D0%BD%D1%88%D0%BE%D1%82-06-10-2025%2003:19:34.jpg",
+                    "https://skrinshoter.ru/s/061025/oqEJyQpq.jpg?download=1&name=%D0%A1%D0%BA%D1%80%D0%B8%D0%BD%D1%88%D0%BE%D1%82-06-10-2025%2003:20:09.jpg",
+                    "https://skrinshoter.ru/s/061025/cFfZcWi4.jpg?download=1&name=%D0%A1%D0%BA%D1%80%D0%B8%D0%BD%D1%88%D0%BE%D1%82-06-10-2025%2003:21:05.jpg",
+                    "https://skrinshoter.ru/s/061025/fsKq3ayg.jpg?download=1&name=%D0%A1%D0%BA%D1%80%D0%B8%D0%BD%D1%88%D0%BE%D1%82-06-10-2025%2003:21:53.jpg",
+                    "https://skrinshoter.ru/s/061025/IQYW5y6D.jpg?download=1&name=%D0%A1%D0%BA%D1%80%D0%B8%D0%BD%D1%88%D0%BE%D1%82-06-10-2025%2003:22:25.jpg",
+                ],
+                link: "https://new.stalker-rp.net/"
+            },
+        ];
+
+        const contacts = [
+            {
+                icon: "fas fa-envelope",
+                title: "Email",
+                description: "swcasimiro@yahoo.com",
+                link: "mailto:swcasimiro@yahoo.com",
+                color: "from-gray-600 to-gray-700"
+            },
+            {
+                icon: "fab fa-telegram",
+                title: "Telegram",
+                description: "@swcasimiro",
+                link: "https://t.me/swcasimiro",
+                color: "from-gray-600 to-gray-700"
+            },
+            {
+                icon: "fab fa-github",
+                title: "GitHub",
+                description: "github.com/swcasimiro",
+                link: "https://github.com/swcasimiro",
+                color: "from-gray-600 to-gray-700"
+            }
+        ];
+
+        // Глобальные переменные для модального окна
+        let currentProjectIndex = 0;
+        let currentImageIndex = 0;
+        let isZoomed = false;
+
+        const projectsGrid = document.getElementById('projects-grid');
+        const contactsGrid = document.getElementById('contacts-grid');
+        const sections = document.querySelectorAll('.section');
+        
+        // Элементы модального окна
+        const modal = document.getElementById('imageModal');
+        const modalImage = document.getElementById('modalImage');
+        const modalClose = document.getElementById('modalClose');
+        const modalPrev = document.getElementById('modalPrev');
+        const modalNext = document.getElementById('modalNext');
+        const modalZoom = document.getElementById('modalZoom');
+        const modalCounter = document.getElementById('modalCounter');
+
+        document.addEventListener('DOMContentLoaded', function() {
+            renderProjects();
+            renderContacts();
+            initScrollAnimations();
+            initSmoothScroll();
+            initModalEvents();
+        });
+
+        function renderProjects() {
+            projectsGrid.innerHTML = projects.map((project, projectIndex) => `
+                <div class="project-card bg-white rounded-2xl overflow-hidden h-full">
+                    <div class="project-slider relative" data-project-index="${projectIndex}">
+                        ${project.images.map((image, index) => `
+                            <img src="${image}" 
+                                 alt="${project.title} - фото ${index + 1}" 
+                                 class="slide ${index === 0 ? 'active' : ''}"
+                                 data-project-index="${projectIndex}"
+                                 data-image-index="${index}">
+                        `).join('')}
+                        
+                        <div class="image-counter">1 / ${project.images.length}</div>
+                        
+                        <button class="slider-btn prev">
+                            <i class="fas fa-chevron-left"></i>
+                        </button>
+                        <button class="slider-btn next">
+                            <i class="fas fa-chevron-right"></i>
+                        </button>
+                        
+                        <div class="slider-nav">
+                            ${project.images.map((_, index) => `
+                                <div class="nav-dot ${index === 0 ? 'active' : ''}" data-index="${index}"></div>
+                            `).join('')}
+                        </div>
+                    </div>
+                    
+                    <div class="p-8">
+                        <h3 class="text-2xl font-bold text-gray-800 mb-4">${project.title}</h3>
+                        <p class="text-gray-600 mb-6 text-lg leading-relaxed">${project.description}</p>
+                        
+                        <div class="flex flex-wrap gap-3 mb-8">
+                            ${project.tech.map(tech => `
+                                <span class="tech-tag px-4 py-2 rounded-full text-sm font-medium">${tech}</span>
+                            `).join('')}
+                        </div>
+                        
+                        <a href="${project.link}" target="_blank" class="w-full bg-gray-800 hover:bg-gray-900 text-white text-lg font-medium py-4 rounded-xl text-center block transition-colors transform hover:scale-105">
+                            Посмотреть проект
+                        </a>
+                    </div>
+                </div>
+            `).join('');
+
+            initSliders();
+            initImageClicks();
+        }
+
+        function initSliders() {
+            document.querySelectorAll('.project-slider').forEach(slider => {
+                const slides = slider.querySelectorAll('.slide');
+                const dots = slider.querySelectorAll('.nav-dot');
+                const prevBtn = slider.querySelector('.prev');
+                const nextBtn = slider.querySelector('.next');
+                const counter = slider.querySelector('.image-counter');
+                
+                let currentSlide = 0;
+
+                function showSlide(index) {
+                    slides.forEach(slide => slide.classList.remove('active'));
+                    dots.forEach(dot => dot.classList.remove('active'));
+                    
+                    slides[index].classList.add('active');
+                    dots[index].classList.add('active');
+                    counter.textContent = `${index + 1} / ${slides.length}`;
+                    currentSlide = index;
+                }
+
+                function nextSlide() {
+                    let next = currentSlide + 1;
+                    if (next >= slides.length) next = 0;
+                    showSlide(next);
+                }
+
+                function prevSlide() {
+                    let prev = currentSlide - 1;
+                    if (prev < 0) prev = slides.length - 1;
+                    showSlide(prev);
+                }
+
+                nextBtn.addEventListener('click', nextSlide);
+                prevBtn.addEventListener('click', prevSlide);
+
+                dots.forEach((dot, index) => {
+                    dot.addEventListener('click', () => showSlide(index));
+                });
+
+            });
+        }
+
+        function initImageClicks() {
+            document.querySelectorAll('.slide').forEach(slide => {
+                slide.addEventListener('click', function() {
+                    const projectIndex = parseInt(this.getAttribute('data-project-index'));
+                    const imageIndex = parseInt(this.getAttribute('data-image-index'));
+                    openModal(projectIndex, imageIndex);
+                });
+            });
+        }
+
+        function initModalEvents() {
+            modalClose.addEventListener('click', closeModal);
+            modal.addEventListener('click', function(e) {
+                if (e.target === modal) {
+                    closeModal();
+                }
+            });
+
+            modalPrev.addEventListener('click', showPrevImage);
+            modalNext.addEventListener('click', showNextImage);
+
+            modalZoom.addEventListener('click', toggleZoom);
+            modalImage.addEventListener('click', function(e) {
+                if (isZoomed) {
+                    toggleZoom();
+                }
+            });
+
+            document.addEventListener('keydown', function(e) {
+                if (!modal.classList.contains('active')) return;
+                
+                switch(e.key) {
+                    case 'Escape':
+                        closeModal();
+                        break;
+                    case 'ArrowLeft':
+                        showPrevImage();
+                        break;
+                    case 'ArrowRight':
+                        showNextImage();
+                        break;
+                    case ' ':
+                    case 'Enter':
+                        toggleZoom();
+                        break;
+                }
+            });
+        }
+
+        function openModal(projectIndex, imageIndex) {
+            currentProjectIndex = projectIndex;
+            currentImageIndex = imageIndex;
+            isZoomed = false;
+            
+            updateModalImage();
+            modal.classList.add('active');
+            document.body.style.overflow = 'hidden';
+        }
+
+        function closeModal() {
+            modal.classList.remove('active');
+            document.body.style.overflow = 'auto';
+            isZoomed = false;
+            modalImage.classList.remove('zoomed');
+            modalZoom.innerHTML = '<i class="fas fa-search-plus"></i>';
+        }
+
+        function showPrevImage() {
+            const project = projects[currentProjectIndex];
+            currentImageIndex--;
+            if (currentImageIndex < 0) {
+                currentImageIndex = project.images.length - 1;
+            }
+            updateModalImage();
+        }
+
+        function showNextImage() {
+            const project = projects[currentProjectIndex];
+            currentImageIndex++;
+            if (currentImageIndex >= project.images.length) {
+                currentImageIndex = 0;
+            }
+            updateModalImage();
+        }
+
+        function updateModalImage() {
+            const project = projects[currentProjectIndex];
+            modalImage.src = project.images[currentImageIndex];
+            modalImage.alt = `${project.title} - фото ${currentImageIndex + 1}`;
+            modalCounter.textContent = `${currentImageIndex + 1} / ${project.images.length}`;
+            
+            isZoomed = false;
+            modalImage.classList.remove('zoomed');
+            modalZoom.innerHTML = '<i class="fas fa-search-plus"></i>';
+        }
+
+        function toggleZoom() {
+            isZoomed = !isZoomed;
+            modalImage.classList.toggle('zoomed', isZoomed);
+            modalZoom.innerHTML = isZoomed ? 
+                '<i class="fas fa-search-minus"></i>' : 
+                '<i class="fas fa-search-plus"></i>';
+        }
+
+        function renderContacts() {
+            contactsGrid.innerHTML = contacts.map(contact => `
+                <a href="${contact.link}" target="_blank" class="contact-card bg-gray-800 rounded-2xl p-8 text-center group h-full block">
+                    <div class="w-20 h-20 bg-gradient-to-r ${contact.color} rounded-2xl flex items-center justify-center mx-auto mb-6 group-hover:scale-110 transition-transform duration-300">
+                        <i class="${contact.icon} text-white text-2xl"></i>
+                    </div>
+                    <h3 class="text-xl font-bold text-white mb-3">${contact.title}</h3>
+                    <p class="text-gray-300 text-lg">${contact.description}</p>
+                </a>
+            `).join('');
+        }
+
+        function initScrollAnimations() {
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add('visible');
+                    }
+                });
+            }, { threshold: 0.1 });
+
+            sections.forEach(section => {
+                observer.observe(section);
+            });
+        }
+
+        function initSmoothScroll() {
+            document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+                anchor.addEventListener('click', function (e) {
+                    e.preventDefault();
+                    const target = document.querySelector(this.getAttribute('href'));
+                    if (target) {
+                        target.scrollIntoView({
+                            behavior: 'smooth',
+                            block: 'start'
+                        });
+                    }
+                });
+            });
+        }
+    </script>
+</body>
+</html>
